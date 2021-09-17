@@ -1,7 +1,7 @@
-import { Mephisto } from "./src";
+import { Hermes } from "./src";
 import { keys } from './keys';
 
-const crypass = new Mephisto();
+const crypass = new Hermes();
 
 (async () => {
   const cry = await crypass.encDataTransfer(1.1)

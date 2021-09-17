@@ -9,7 +9,7 @@ interface DataMask {
   data: Array<String>
 }
 
-export class Mephisto {
+export class Hermes {
 
   CreateFile(Callback: Function){
     fs.access(path.resolve(__dirname, '.', 'keys', 'dataset.json'), (err) => {
