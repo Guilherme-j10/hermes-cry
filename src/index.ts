@@ -48,7 +48,7 @@ export class Hermes {
 
         fs.writeFileSync(
           path.resolve(__dirname, '..', '..', '..', this.nameFile),
-          `export const keys = ${JSON.stringify(keysOut)}`
+          `module.exports = ${JSON.stringify(keysOut)}`
         );
         Callback();
       }
