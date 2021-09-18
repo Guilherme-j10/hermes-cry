@@ -1,8 +1,8 @@
 {
   "name": "hermes-cry",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Security package",
-  "types": "dist/index.s.ts",
+  "types": "dist/index.d.ts",
   "prepublish": "tsc",
   "main": "dist/index.js",
   "repository": {
@@ -15,6 +15,7 @@
   },
   "keywords": ["sec", "encryption", "crypt", "security", "information"],
   "author": "Guilherme Campos",
+  "files": ["dist"],
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^16.4.13",
