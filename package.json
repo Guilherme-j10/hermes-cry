@@ -1,17 +1,21 @@
 {
-  "name": "hermes-sec",
-  "version": "1.0.0",
+  "name": "hermes-cry",
+  "version": "1.1.0",
   "description": "Security package",
   "types": "dist/index.s.ts",
   "prepublish": "tsc",
   "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Guilherme-j10/hermes-cry" 
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsnd --transpile-only --respawn --ignore-watch node_modules test.ts"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["sec", "encryption", "crypt", "security", "information"],
+  "author": "Guilherme Campos",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^16.4.13",
     "ts-node-dev": "^1.1.8",

@@ -11,8 +11,10 @@ interface DataMask {
 
 export class Hermes {
 
+  private nameFile = 'dataset_hermes.js';
+
   CreateFile(Callback: Function){
-    fs.access(path.resolve(__dirname, '.', 'keys', 'dataset.json'), (err) => {
+    fs.access(path.resolve(__dirname, '..', '..', '..', this.nameFile), (err) => {
       if(err){
         let keysOut = []; 
         for(let i = 0; i < 100; i++){
@@ -44,7 +46,10 @@ export class Hermes {
           keysOut.push(keys);
         }
 
-        fs.writeFileSync(path.resolve(__dirname, '.', 'keys', 'dataset.json'), JSON.stringify(keysOut));
+        fs.writeFileSync(
+          path.resolve(__dirname, '..', '..', '..', this.nameFile),
+          `export const keys = ${JSON.stringify(keysOut)}`
+        );
         Callback();
       }
 
@@ -56,12 +61,9 @@ export class Hermes {
     return new Promise((resolve, reject) => {
       this.CreateFile(() => {
         try {
-          const dataKeys = JSON.parse(fs.readFileSync(path.resolve(__dirname, '.', 'keys', 'dataset.json')).toString())[`${Math.floor(Math.random() * 99)}`];
+          const dataKeys = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', '..', '..', this.nameFile)).toString().split('= ')[1])[`${Math.floor(Math.random() * 99)}`];
           const structure = JSON.stringify(data).split('');
-          let StringTransfer = (() => {
-            let getkey = dataKeys.keyNumber.split('_');
-            return `${getkey[1]}`;
-          })();
+          let StringTransfer = dataKeys.keyNumber.split('_')[1];
           for(let y in structure){
             for(let x in dataKeys.data){
               if(dataKeys.data[x] === structure[y]){
@@ -92,7 +94,7 @@ export class Hermes {
 
     let brokeZ = [];
     let counter = 0;
-    while(counter < MephistSoon.split('').length){
+    while(counter < arrayString.length){
 
       let z = '';
       for(let i = counter; i < (counter + size); i++){
@@ -100,8 +102,8 @@ export class Hermes {
       }
 
       brokeZ.push(z);
-
       counter += size;
+
     }
 
     let dec = '';
