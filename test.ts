@@ -1,11 +1,13 @@
 import { Hermes } from "./src";
-import { keys } from './dataset_hermes';
 
 const crypass = new Hermes();
 
 (async () => {
-  const cry = await crypass.encDataTransfer(1.1)
-
-  const rest = crypass.decDataTransfer(keys, cry);
-  console.log(rest);
+  try {
+    const cry = await crypass.encDataTransfer('ola mundo')
+    const rest = await crypass.decDataTransfer(cry);
+    console.log(rest);
+  } catch (error) {
+    console.log(error);
+  }
 })();

@@ -11,10 +11,10 @@ interface DataMask {
 
 export class Hermes {
 
-  private nameFile = 'dataset_hermes.js';
+  private nameFile = 'dataset_hermes.txt';
 
   CreateFile(Callback: Function){
-    fs.access(path.resolve(__dirname, '..', '..', '..', this.nameFile), (err) => {
+    fs.access(path.resolve(__dirname, '..', this.nameFile), (err) => {
       if(err){
         let keysOut = []; 
         for(let i = 0; i < 100; i++){
@@ -47,8 +47,8 @@ export class Hermes {
         }
 
         fs.writeFileSync(
-          path.resolve(__dirname, '..', '..', '..', this.nameFile),
-          `module.exports = ${JSON.stringify(keysOut)}`
+          path.resolve(__dirname, '..', this.nameFile),
+          JSON.stringify(keysOut)
         );
         Callback();
       }
@@ -57,11 +57,11 @@ export class Hermes {
     })
   }
 
-  encDataTransfer(data: any): Promise<string>{
+  encDataTransfer(data: any): Promise<string> {
     return new Promise((resolve, reject) => {
       this.CreateFile(() => {
         try {
-          const dataKeys = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', '..', '..', this.nameFile)).toString().split('= ')[1])[`${Math.floor(Math.random() * 99)}`];
+          const dataKeys = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', this.nameFile), 'utf8'))[`${Math.floor(Math.random() * 99)}`];
           const structure = JSON.stringify(data).split('');
           let StringTransfer = dataKeys.keyNumber.split('_')[1];
           for(let y in structure){
@@ -81,40 +81,49 @@ export class Hermes {
     })
   }
 
-  decDataTransfer(keys: Array<DataMask>, data: any): any{
-    const MephistSoon = Buffer.from(data, 'base64').toString('utf8').split('').reverse().join('');
-    const arrayString = MephistSoon.split('');
+  decDataTransfer(data: any): Promise<string> {
+    return new Promise((resolve, reject) => {
+      fs.access(path.resolve(__dirname, '..', this.nameFile), (err) => {
+        if(err){
+          reject('Arquivo de chaves ainda não existe');
+          return;
+        } 
 
-    const key = keys[parseInt(`${MephistSoon.split('')[0]}${MephistSoon.split('')[1]}`)];
-    arrayString.shift();
-    arrayString.shift();
+        const MephistSoon = Buffer.from(data, 'base64').toString('utf8').split('').reverse().join('');
+        const arrayString = MephistSoon.split('');
 
-    const size = parseInt(MephistSoon.split('')[MephistSoon.split('').length - 1]);
-    arrayString.pop();
+        const key = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', this.nameFile), 'utf8'))[parseInt(`${MephistSoon.split('')[0]}${MephistSoon.split('')[1]}`)];
+        arrayString.shift();
+        arrayString.shift();
 
-    let brokeZ = [];
-    let counter = 0;
-    while(counter < arrayString.length){
+        const size = parseInt(MephistSoon.split('')[MephistSoon.split('').length - 1]);
+        arrayString.pop();
 
-      let z = '';
-      for(let i = counter; i < (counter + size); i++){
-        z += arrayString[i];
-      }
+        let brokeZ = [];
+        let counter = 0;
+        while(counter < arrayString.length){
 
-      brokeZ.push(z);
-      counter += size;
+          let z = '';
+          for(let i = counter; i < (counter + size); i++){
+            z += arrayString[i];
+          }
 
-    }
+          brokeZ.push(z);
+          counter += size;
 
-    let dec = '';
-    for(let y in brokeZ){
-      for(let x in key.dataSet){
-        if(key.dataSet[x] == brokeZ[y]){
-          dec += key.data[x];
         }
-      }
-    }
 
-    return JSON.parse(dec);
+        let dec = '';
+        for(let y in brokeZ){
+          for(let x in key.dataSet){
+            if(key.dataSet[x] == brokeZ[y]){
+              dec += key.data[x];
+            }
+          }
+        }
+
+        resolve(JSON.parse(dec));
+      });
+    })
   }
 }
