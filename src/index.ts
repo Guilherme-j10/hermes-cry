@@ -14,7 +14,7 @@ export class Hermes {
   private nameFile = 'dataset_hermes.txt';
 
   CreateFile(Callback: Function){
-    fs.access(path.resolve(__dirname, '..', this.nameFile), (err) => {
+    fs.access(path.resolve(__dirname, '..', '..', '..', this.nameFile), (err) => {
       if(err){
         let keysOut = []; 
         for(let i = 0; i < 100; i++){
@@ -47,7 +47,7 @@ export class Hermes {
         }
 
         fs.writeFileSync(
-          path.resolve(__dirname, '..', this.nameFile),
+          path.resolve(__dirname, '..', '..', '..', this.nameFile),
           JSON.stringify(keysOut)
         );
         Callback();
@@ -61,7 +61,7 @@ export class Hermes {
     return new Promise((resolve, reject) => {
       this.CreateFile(() => {
         try {
-          const dataKeys = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', this.nameFile), 'utf8'))[`${Math.floor(Math.random() * 99)}`];
+          const dataKeys = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', '..', '..', this.nameFile), 'utf8'))[`${Math.floor(Math.random() * 99)}`];
           const structure = JSON.stringify(data).split('');
           let StringTransfer = dataKeys.keyNumber.split('_')[1];
           for(let y in structure){
@@ -83,7 +83,7 @@ export class Hermes {
 
   decDataTransfer(data: any): Promise<string> {
     return new Promise((resolve, reject) => {
-      fs.access(path.resolve(__dirname, '..', this.nameFile), (err) => {
+      fs.access(path.resolve(__dirname, '..', '..', '..', this.nameFile), (err) => {
         if(err){
           reject('Arquivo de chaves ainda não existe');
           return;
@@ -92,7 +92,7 @@ export class Hermes {
         const MephistSoon = Buffer.from(data, 'base64').toString('utf8').split('').reverse().join('');
         const arrayString = MephistSoon.split('');
 
-        const key = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', this.nameFile), 'utf8'))[parseInt(`${MephistSoon.split('')[0]}${MephistSoon.split('')[1]}`)];
+        const key = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', '..', '..', this.nameFile), 'utf8'))[parseInt(`${MephistSoon.split('')[0]}${MephistSoon.split('')[1]}`)];
         arrayString.shift();
         arrayString.shift();
 
